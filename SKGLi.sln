@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKGLi", "SKGLi\SKGLi.csproj", "{34BB2551-AF83-4377-9512-E51FDFCE6266}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKGLi", "SKGLi\SKGLi.csproj", "{34BB2551-AF83-4377-9512-E51FDFCE6266}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKGLi.Demo.Keygen", "SKGLi.Demo.Keygen\SKGLi.Demo.Keygen.csproj", "{048B144E-B73C-453F-9AA2-24E8721EF9C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SKGLi.Demo.Keygen", "SKGLi.Demo.Keygen\SKGLi.Demo.Keygen.csproj", "{048B144E-B73C-453F-9AA2-24E8721EF9C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{549A7520-8213-4D80-8349-CE2B3290DC73}"
 	ProjectSection(SolutionItems) = preProject

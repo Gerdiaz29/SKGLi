@@ -29,15 +29,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+using System.Threading.Tasks;
+
+//using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
 namespace SKGLi.Demo.Keygen
 {
     public partial class Form1 : Form
     {
-        private delegate object[] GenereateSerialDelegate(KeyData data, int amount);
-
         private const string SecretPhase = "djgyaus4&*gigds*^&*W%EWds";
         private readonly SerialFactory _manager;
 
@@ -60,7 +60,7 @@ namespace SKGLi.Demo.Keygen
             txtSecretPhase.Text = _manager.GenerateSecretPhase();
             _manager.SecretPhase = txtSecretPhase.Text;
         }
-        private void cmdGenerate_Click(object sender, EventArgs e)
+        private async void cmdGenerate_Click(object sender, EventArgs e)
         {
             // --- Validations
             if (txtSecretPhase.TextLength == 0)
@@ -68,7 +68,7 @@ namespace SKGLi.Demo.Keygen
                 MessageBox.Show("Please fullfill required informations!");
                 return;
             }
-            if (txtSecretPhase.TextLength < 20 || txtSecretPhase.TextLength > 20)
+            if (txtSecretPhase.TextLength != 20)
             {
                 MessageBox.Show("Your secret phase is too short/long. Use 20 character secret phase.");
             }
@@ -78,15 +78,15 @@ namespace SKGLi.Demo.Keygen
             var data = new KeyData
             {
                 CreationDate = dtCreationDate.Value,
-                TimeLeft = (int) numTimeLeft.Value,
+                TimeLeft = (int)numTimeLeft.Value,
             };
             // add features
-            var dd = new bool[8];
+            var features = new bool[8];
             for (var i = 0; i < chlFeatures.Items.Count; i++)
             {
-                dd[i] = chlFeatures.GetItemChecked(i);
+                features[i] = chlFeatures.GetItemChecked(i);
             }
-            data.Features = dd;
+            data.Features = features;
             // add machine code
             if (chkMachineLocking.Checked)
                 data.MachineCode = Convert.ToInt32(lblMachineCode.Text);
@@ -95,8 +95,9 @@ namespace SKGLi.Demo.Keygen
             _manager.SecretPhase = txtSecretPhase.Text;
 
             // --- Generate serial
-            var caller = new GenereateSerialDelegate(GenerateSerials);
-            caller.BeginInvoke(data, (int) numNumberOfKeys.Value, GenerateSerialCallback, null);
+            var serials = await Task.Run(() => GenerateSerials(data, (int)numNumberOfKeys.Value));
+            lstSerial.Items.Clear();
+            lstSerial.Items.AddRange(serials);
         }
         private void cmdCopyToClipboard_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -118,18 +119,7 @@ namespace SKGLi.Demo.Keygen
             }
             return lst.ToArray();
         }
-        private void GenerateSerialCallback(IAsyncResult ar)
-        {
-            var asyncResult = (AsyncResult)ar;
-            var caller = (GenereateSerialDelegate)asyncResult.AsyncDelegate;
 
-            var objs = caller.EndInvoke(ar);
-            this.InvokeOnUiThreadIfRequired(() =>
-            {
-                lstSerial.Items.Clear();
-                lstSerial.Items.AddRange(objs);
-            });
-        }
         #endregion
 
         #region Validate Tab
@@ -150,7 +140,7 @@ namespace SKGLi.Demo.Keygen
 
         private void AboutLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var url = (LinkLabel) sender;
+            var url = (LinkLabel)sender;
             Process.Start(url.Text);
         }
     }

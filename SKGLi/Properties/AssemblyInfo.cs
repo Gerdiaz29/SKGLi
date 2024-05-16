@@ -41,5 +41,5 @@ using System.Security;
 [assembly: ComVisible(false)]
 [assembly: Guid("34bb2551-af83-4377-9512-e51fdfce6266")]
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AllowPartiallyTrustedCallers]
