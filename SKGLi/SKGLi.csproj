@@ -8,6 +8,7 @@
     <Product>SKGLi</Product>
     <Copyright>Copyright © Artem Los, Fahmi Noor Fiqri 2017</Copyright>
     <AssemblyVersion>1.0.%2a</AssemblyVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DocumentationFile>bin\Debug\SKGLi.XML</DocumentationFile>
